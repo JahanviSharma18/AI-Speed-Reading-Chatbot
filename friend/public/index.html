@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpeedRead AI - Enhance Your Reading Speed</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.10.5/cdn.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        body {
+            background-color: #f0f4f8;
+            color: #2d3748;
+            font-family: 'Inter', sans-serif;
+        }
+        .chat-container {
+            height: calc(100vh - 180px);
+        }
+        .message-fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .typing-indicator span {
+            animation: blink 1.4s infinite both;
+        }
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes blink {
+            0% { opacity: 0.1; }
+            20% { opacity: 1; }
+            100% { opacity: 0.1; }
+        }
+    </style>
+</head>
+<body class="bg-blue-50">
+    <div x-data="chatApp()" class="min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="bg-indigo-100 shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                        <h1 class="ml-2 text-2xl font-semibold text-indigo-800">SpeedRead AI</h1>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button class="text-indigo-600 hover:text-indigo-800 font-medium">Features</button>
+                        <button class="text-indigo-600 hover:text-indigo-800 font-medium">About</button>
+                        <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors font-medium">Upgrade</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <!-- Chat Header -->
+                <div class="px-6 py-4 bg-indigo-50 border-b border-indigo-100 flex justify-between items-center">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <h2 class="text-lg font-semibold text-indigo-800">Speed Reading Assistant</h2>
+                            <p class="text-sm text-indigo-600">Training your brain to read faster</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="p-2 rounded-full hover:bg-indigo-100 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                        </button>
+                        <button class="p-2 rounded-full hover:bg-indigo-100 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Chat Messages -->
+                <div class="chat-container overflow-y-auto px-6 py-4" id="chat-container">
+                    <template x-for="(message, index) in messages" :key="index">
+                        <div :class="['message-fade-in mb-4 flex', message.sender === 'user' ? 'justify-end' : 'justify-start']">
+                            <div :class="['max-w-3xl rounded-lg px-4 py-3', message.sender === 'user' ? 'bg-indigo-100 text-indigo-900' : 'bg-amber-50 text-gray-800']">
+                                <div class="flex items-start">
+                                    <div x-show="message.sender !== 'user'" class="flex-shrink-0 mr-3">
+                                        <div class="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white text-xs">
+                                            AI
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm" x-html="message.content"></p>
+                                        <p x-show="message.wpm" class="text-xs text-gray-500 mt-1">
+                                            <span x-text="message.wpm"></span> WPM
+                                        </p>
+                                    </div>
+                                    <div x-show="message.sender === 'user'" class="flex-shrink-0 ml-3">
+                                        <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xs">
+                                            You
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    <div x-show="isLoading" class="flex items-center mb-4">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white text-xs mr-3">
+                            AI
+                        </div>
+                        <div class="bg-amber-50 text-amber-800 px-4 py-3 rounded-lg">
+                            <div class="typing-indicator">
+                                <span>●</span>
+                                <span>●</span>
+                                <span>●</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input Area -->
+                <div class="px-6 py-4 bg-indigo-50 border-t border-indigo-100">
+                    <form @submit.prevent="sendMessage()">
+                        <div class="flex items-end space-x-2">
+                            <div class="flex-grow">
+                                <textarea 
+                                    x-model="userInput" 
+                                    @keydown.enter.prevent="sendMessage()"
+                                    class="w-full rounded-lg border-2 border-indigo-200 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-white px-4 py-2 text-gray-700 resize-none"
+                                    rows="2"
+                                    placeholder="Ask about speed reading techniques..."></textarea>
+                            </div>
+                            <button 
+                                type="submit"
+                                class="bg-indigo-600 text-white p-3 rounded-lg hover:bg-indigo-700 transition-colors flex-shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
+                    <div class="mt-2 flex justify-between items-center text-xs text-indigo-600">
+                        <div class="flex items-center space-x-2">
+                            <button class="p-1 hover:bg-indigo-100 rounded transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                                </svg>
+                            </button>
+                            <button class="p-1 hover:bg-indigo-100 rounded transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                                </svg>
+                            </button>
+                        </div>
+                        <span x-text="'Reading speed: ' + currentWPM + ' WPM'"></span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-indigo-100 py-4">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center">
+                    <p class="text-xs text-indigo-600">© 2025 SpeedRead AI. All rights reserved.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-xs text-indigo-600 hover:text-indigo-800">Privacy</a>
+                        <a href="#" class="text-xs text-indigo-600 hover:text-indigo-800">Terms</a>
+                        <a href="#" class="text-xs text-indigo-600 hover:text-indigo-800">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="./src/index.js"></script>
+</body>
+</html>
