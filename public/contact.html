@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - SpeedRead AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+    <header class="bg-indigo-600 text-white py-4">
+        <div class="max-w-7xl mx-auto px-6">
+            <h1 class="text-2xl font-semibold">Contact Us</h1>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-8 flex-grow">
+        <section>
+            <h2 class="text-xl font-semibold mb-4">Get in Touch</h2>
+            <p class="text-gray-700">We'd love to hear from you! Whether you have questions or feedback, feel free to reach out to us using the form below.</p>
+        </section>
+
+        <section class="mt-8">
+            <form action="#" method="POST">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="flex flex-col">
+                        <label for="name" class="text-gray-700">Name</label>
+                        <input type="text" id="name" name="name" class="border-2 border-gray-300 p-3 rounded-lg" required>
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="email" class="text-gray-700">Email</label>
+                        <input type="email" id="email" name="email" class="border-2 border-gray-300 p-3 rounded-lg" required>
+                    </div>
+                </div>
+                <div class="flex flex-col mt-6">
+                    <label for="message" class="text-gray-700">Message</label>
+                    <textarea id="message" name="message" class="border-2 border-gray-300 p-3 rounded-lg" rows="5" required></textarea>
+                </div>
+                <div class="flex justify-center mt-6">
+                    <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700">Submit</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer class="bg-indigo-600 text-white py-4 mt-auto">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <p>&copy; 2025 SpeedRead AI. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

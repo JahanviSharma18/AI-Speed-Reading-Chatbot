@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Features - SpeedRead AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex flex-col min-h-screen bg-white text-gray-800">
+    
+  <!-- Header -->
+  <header class="bg-indigo-100 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
+          <h1 class="ml-2 text-2xl font-semibold text-indigo-800">SpeedRead AI</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+          <a href="features.html" id="features-link" class="text-indigo-600 hover:text-indigo-800 font-medium">Features</a>
+          <a href="about.html" id="about-link" class="text-indigo-600 hover:text-indigo-800 font-medium">About</a>
+          <a href="upgrade.html" id="upgrade-link" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors font-medium">Upgrade</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main class="flex-grow max-w-4xl mx-auto px-6 py-12">
+    <h2 class="text-3xl font-bold text-indigo-700 mb-6">Explore SpeedRead AI Features</h2>
+    <ul class="list-disc pl-6 space-y-4 text-lg">
+      <li>Real-time speed reading recommendations</li>
+      <li>Progress tracking and weekly reports</li>
+      <li>AI-powered text summarization</li>
+      <li>Gamified reading challenges to boost engagement</li>
+    </ul>
+  </main>
+
+  <!-- Go Back Button -->
+  <button onclick="goBack()" class="mt-6 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors font-medium">
+    Go Back to Home
+  </button>
+
+  <!-- Footer -->
+  <footer class="bg-indigo-100 py-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center">
+        <p class="text-xs text-indigo-600">© 2025 SpeedRead AI. All rights reserved.</p>
+        <p class="text-xs text-indigo-600">
+          Made with passion by 
+          <a href="#" class="hover:underline">Janvi</a>, 
+          <a href="#" class="hover:underline">Akshit</a> & 
+          <a href="#" class="hover:underline">Tanmay</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function goBack() {
+        window.location.href = "index.html";
+    }
+
+    // Highlight the active link
+    document.addEventListener("DOMContentLoaded", function() {
+      const currentPage = window.location.pathname.split("/").pop();
+
+      // Reset the style for all links
+      const links = document.querySelectorAll("a");
+      links.forEach(link => {
+        link.classList.remove("text-indigo-800", "font-bold", "bg-indigo-200", "shadow-lg", "rounded-lg", "px-6", "py-3");
+      });
+
+      // Highlight the active link
+      if (currentPage === "features.html") {
+        document.getElementById("features-link").classList.add("text-indigo-800", "font-bold", "bg-indigo-200", "shadow-xl", "rounded-lg", "px-6", "py-3");
+      } else if (currentPage === "about.html") {
+        document.getElementById("about-link").classList.add("text-indigo-800", "font-bold", "bg-indigo-200", "shadow-xl", "rounded-lg", "px-6", "py-3");
+      } else if (currentPage === "upgrade.html") {
+        document.getElementById("upgrade-link").classList.add("text-indigo-800", "font-bold", "bg-indigo-200", "shadow-xl", "rounded-lg", "px-6", "py-3");
+      }
+    });
+  </script>
+
+</body>
+</html>
