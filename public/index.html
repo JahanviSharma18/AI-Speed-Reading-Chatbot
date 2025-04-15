@@ -14,7 +14,7 @@
             font-family: 'Inter', sans-serif;
         }
         .chat-container {
-            height: calc(100vh - 180px);
+            height: calc(100vh - 220px); /* Adjusted for stats section */
         }
         .message-fade-in {
             animation: fadeIn 0.5s ease-in-out;
@@ -77,7 +77,7 @@
     </style>
 </head>
 <body class="bg-gradient-to-b from-blue-50 to-gray-100">
-    <div x-data="chatApp()" class="min-h-screen flex flex-col">
+    <div x-data="chatApp()" x-init="init()" class="min-h-screen flex flex-col">
         <!-- Header -->
         <header class="bg-gradient-to-r from-indigo-100 to-purple-100 shadow-lg">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -126,6 +126,15 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
                         </button>
+                    </div>
+                </div>
+
+                <!-- Progress Stats -->
+                <div class="px-6 py-2 bg-indigo-100 border-b border-indigo-200">
+                    <div class="flex justify-between text-sm text-indigo-700">
+                        <span>Words Read: <span x-text="totalWords"></span></span>
+                        <span>Sessions: <span x-text="sessionCount"></span></span>
+                        <span>Avg WPM: <span x-text="Math.round(averageWPM)"></span></span>
                     </div>
                 </div>
 
@@ -208,7 +217,7 @@
                         <div class="flex items-center space-x-2">
                             <button class="p-1 hover:bg-indigo-100 rounded transition-colors chat-button">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 8a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
                                 </svg>
                             </button>
                             <button class="p-1 hover:bg-indigo-100 rounded transition-colors chat-button">
@@ -250,7 +259,7 @@
                         </a>
                         <a href="#" class="text-indigo-600 social-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.326 3.608 1.301.975.975 1.24 2.242 1.301 3.608.058 1.265.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.326 2.633-1.301 3.608-.975.975-2.242 1.24-3.608 1.301-1.265.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.326-3.608-1.301-.975-.975-1.24-2.242-1.301-3.608-.058-1.265-.07-1.646-.07-4.85s.012-3.584.07-4.85c-.062 1.366-.326-2.633 1.301-3.608.975-.975 2.242-1.24 3.608-1.301 1.265-.058 1.646-.07 4.85-.07m0-2. INTEGRITY163c-3.259 0-3.667.014-4.947.072-1.453.066-2.918.362-4.045 1.489s-1.423 2.592-1.489 4.045c-.058 1.28-.072 1.688-.072 4.947s.014 3.667.072 4.947c.066 1.453.362 2.918 1.489 4.045s2.592 1.423 4.045 1.489c1.28.058 1.688.072 4.947.072s3.667-.014 4.947-.072c1.453-.066 2.918-.362 4.045-1.489s1.423-2.592 1.489-4.045c.058-1.28.072-1.688.072-4.947s-.014-3.667-.072-4.947c-.066-1.453-.362-2.918-1.489-4.045s-2.592-1.423-4.045-1.489c-1.28-.058-1.688-.072-4.947-.072z"/>
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.326 3.608 1.301.975.975 1.24 2.242 1.301 3.608.058 1.265.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.326 2.633-1.301 3.608-.975.975-2.242 1.24-3.608 1.301-1.265.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.326-3.608-1.301-.975-.975-1.24-2.242-1.301-3.608-.058-1.265-.07-1.646-.07-4.85s.012-3.584.07-4.85c-.062 1.366-.326-2.633 1.301-3.608.975-.975 2.242-1.24 3.608-1.301 1.265-.058 1.646-.07 4.85-.07m0-2.163c-3.259 0-3.667.014-4.947.072-1.453.066-2.918.362-4.045 1.489s-1.423 2.592-1.489 4.045c-.058 1.28-.072 1.688-.072 4.947s.014 3.667.072 4.947c.066 1.453.362 2.918 1.489 4.045s2.592 1.423 4.045 1.489c1.28.058 1.688.072 4.947.072s3.667-.014 4.947-.072c1.453-.066 2.918-.362 4.045-1.489s1.423-2.592 1.489-4.045c.058-1.28.072-1.688.072-4.947s-.014-3.667-.072-4.947c-.066-1.453-.362-2.918-1.489-4.045s-2.592-1.423-4.045-1.489c-1.28-.058-1.688-.072-4.947-.072z"/>
                             </svg>
                         </a>
                     </div>
