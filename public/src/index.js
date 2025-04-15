@@ -41,6 +41,19 @@ function chatApp() {
             this.averageWPM = wpms.length ? wpms.reduce((sum, w) => sum + w, 0) / wpms.length : this.currentWPM;
         },
 
+        // Handle file upload
+        handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = () => {
+                this.userInput = reader.result;
+                this.sendMessage();
+                event.target.value = ''; // Reset input
+            };
+            reader.readAsText(file);
+        },
+
         // Toggle speech for a message
         toggleSpeech(index) {
             const voices = window.speechSynthesis.getVoices();
